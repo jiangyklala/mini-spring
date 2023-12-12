@@ -14,7 +14,7 @@
 	<name>mini-spring</name>
 	<description>try to implete a mini-spring which includes functions of AOP &amp; IOC</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
