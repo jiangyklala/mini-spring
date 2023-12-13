@@ -1,4 +1,4 @@
-package com.jiang.practice;
+package com.jiang.practice.factory.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

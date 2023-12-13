@@ -1,7 +1,9 @@
-package com.jiang.practice;
+package com.jiang.practice.factory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.jiang.practice.factory.config.BeanDefinition;
 
 /**
  * 创建 Bean 的工厂

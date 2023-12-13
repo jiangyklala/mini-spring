@@ -4,6 +4,8 @@ package com.jiang.practice;
 import org.junit.Test;
 
 import com.jiang.practice.bean.UserService;
+import com.jiang.practice.factory.BeanFactory;
+import com.jiang.practice.factory.config.BeanDefinition;
 
 /**
  * @author jiangyunkai <jiangyunkai@kuaishou.com>
