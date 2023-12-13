@@ -11,6 +11,6 @@ import com.jiang.practice.factory.config.BeanDefinition;
  */
 public interface InstantiationStrategy {
 
-    Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException;
+    Object instantiate(String beanName, BeanDefinition beanDefinition, Constructor ctor, Object[] args) throws BeansException;
 
 }

@@ -15,10 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 public class UserService {
 
-    private String name;
+    private String uid;
+
+     private UserDao userDao;
 
     public void queryUserInfo() {
-        log.debug("查询用户信息");
+        log.debug("查询用户信息: " + userDao.queryUserName(uid));
     }
 
 }

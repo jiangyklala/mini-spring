@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
     @Override
-    public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException {
+    public Object instantiate(String beanName, BeanDefinition beanDefinition, Constructor ctor, Object[] args) throws BeansException {
         log.debug("user jdk instantiate bean");
         Class clazz = beanDefinition.getBeanClass();
         try {
