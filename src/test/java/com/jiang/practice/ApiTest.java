@@ -1,16 +1,24 @@
 package com.jiang.practice;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import com.jiang.practice.bean.UserDao;
 import com.jiang.practice.bean.UserService;
 import com.jiang.practice.beans.PropertyValue;
 import com.jiang.practice.beans.PropertyValues;
+import com.jiang.practice.beans.core.io.DefaultResourceLoader;
+import com.jiang.practice.beans.core.io.Resource;
 import com.jiang.practice.factory.config.BeanDefinition;
 import com.jiang.practice.factory.config.BeanReference;
 import com.jiang.practice.factory.support.DefaultListableBeanFactory;
+import com.jiang.practice.factory.xml.XmlBeanDefinitionReader;
 
+import cn.hutool.core.io.IoUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,6 +27,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ApiTest {
+
+    private DefaultResourceLoader resourceLoader;
+
+    @Before
+    public void init() {
+        resourceLoader = new DefaultResourceLoader();
+    }
 
     @Test
     public void testBeanFactory(){
@@ -39,6 +54,57 @@ public class ApiTest {
 
         // 5. 获取 UserService
         UserService userService = (UserService) beanFactory.getBean("userService");
+        userService.queryUserInfo();
+    }
+
+    /**
+     * 测试 classpath 信息加载
+     */
+    @Test
+    public void test_classpath() throws IOException {
+        Resource resource = resourceLoader.getResource("classpath:application.properties");
+        InputStream inputStream = resource.getInputStream();
+        String content = IoUtil.readUtf8(inputStream);
+        log.debug(content);
+    }
+
+    /**
+     * 测试 file 信息加载
+     */
+    @Test
+    public void test_file() throws IOException {
+        Resource resource = resourceLoader.getResource("src/main/resources/application.properties");
+        InputStream inputStream = resource.getInputStream();
+        String content = IoUtil.readUtf8(inputStream);
+        log.debug(content);
+    }
+
+    /**
+     * 测试 url 信息加载
+     */
+    @Test
+    public void test_url() throws IOException {
+        // 网络原因可能导致GitHub不能读取，可以放到自己的 Gitee 仓库。读取后可以从内容中搜索关键字；OLpj9823dZ
+        Resource resource = resourceLoader.getResource("https://github.com/fuzhengwei/small-spring/blob/main/important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String content = IoUtil.readUtf8(inputStream);
+        log.debug(content);
+    }
+
+    /**
+     * 测试 xml 文件配置信息读取
+     */
+    @Test
+    public void test_xml() {
+        // 1.初始化 BeanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        // 2. 读取配置文件&注册Bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
+
+        // 3. 获取Bean对象调用方法
+        UserService userService = (UserService) beanFactory.getBean("userService", UserService.class);
         userService.queryUserInfo();
     }
 
