@@ -11,12 +11,12 @@ import com.jiang.practice.bean.UserDao;
 import com.jiang.practice.bean.UserService;
 import com.jiang.practice.beans.PropertyValue;
 import com.jiang.practice.beans.PropertyValues;
-import com.jiang.practice.beans.core.io.DefaultResourceLoader;
-import com.jiang.practice.beans.core.io.Resource;
-import com.jiang.practice.factory.config.BeanDefinition;
-import com.jiang.practice.factory.config.BeanReference;
-import com.jiang.practice.factory.support.DefaultListableBeanFactory;
-import com.jiang.practice.factory.xml.XmlBeanDefinitionReader;
+import com.jiang.practice.beans.factory.config.BeanDefinition;
+import com.jiang.practice.beans.factory.config.BeanReference;
+import com.jiang.practice.beans.factory.support.DefaultListableBeanFactory;
+import com.jiang.practice.beans.factory.xml.XmlBeanDefinitionReader;
+import com.jiang.practice.core.io.DefaultResourceLoader;
+import com.jiang.practice.core.io.Resource;
 
 import cn.hutool.core.io.IoUtil;
 import lombok.extern.slf4j.Slf4j;

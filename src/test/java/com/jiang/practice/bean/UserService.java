@@ -1,7 +1,9 @@
 package com.jiang.practice.bean;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,14 +15,19 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Setter
+@Getter
 public class UserService {
 
     private String uid;
 
-     private UserDao userDao;
+    private String company;
+
+    private String location;
+
+    private UserDao userDao;
 
     public void queryUserInfo() {
-        log.debug("查询用户信息: " + userDao.queryUserName(uid));
+        log.debug("查询用户信息: uid={}, company:{}, location:{}", userDao.queryUserName(uid), company, location);
     }
-
 }

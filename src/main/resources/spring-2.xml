@@ -10,4 +10,7 @@
         <property name="userDao" ref="userDao"/>
     </bean>
 
+    <bean class="com.jiang.practice.common.MyBeanFactoryPostProcessor"/>
+    <bean class="com.jiang.practice.common.MyBeanPostProcessor"/>
+
 </beans>
