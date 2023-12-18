@@ -7,6 +7,7 @@ import com.jiang.practice.beans.BeansException;
 import com.jiang.practice.beans.factory.config.BeanDefinition;
 import com.jiang.practice.beans.factory.config.BeanPostProcessor;
 import com.jiang.practice.beans.factory.config.ConfigurableBeanFactory;
+import com.jiang.practice.utils.ClassUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +27,11 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      * BeanPostProcessors to apply in createBean
      */
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
+
+    /**
+     * ClassLoader to resolve bean class names with, if necessary
+     */
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
 
     @Override
@@ -72,6 +78,10 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      */
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
+    }
+
+    public ClassLoader getBeanClassLoader() {
+        return this.beanClassLoader;
     }
 
 }

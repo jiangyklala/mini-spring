@@ -103,6 +103,8 @@ public class ApiTest {
         // 3. 获取Bean对象调用方法
         UserService userService = applicationContext.getBean("userService", UserService.class);
         userService.queryUserInfo();
+        log.debug("applicationContextAware: {}", userService.getApplicationContext());
+        log.debug("BeanFactoryAware: {}", userService.getBeanFactory());
     }
 
 }

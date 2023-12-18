@@ -6,6 +6,10 @@ import java.lang.reflect.Method;
 import com.jiang.practice.beans.BeansException;
 import com.jiang.practice.beans.PropertyValue;
 import com.jiang.practice.beans.PropertyValues;
+import com.jiang.practice.beans.factory.Aware;
+import com.jiang.practice.beans.factory.BeanClassLoaderAware;
+import com.jiang.practice.beans.factory.BeanFactoryAware;
+import com.jiang.practice.beans.factory.BeanNameAware;
 import com.jiang.practice.beans.factory.DisposableBean;
 import com.jiang.practice.beans.factory.InitializingBean;
 import com.jiang.practice.beans.factory.config.AutowireCapableBeanFactory;
@@ -95,6 +99,21 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+
+        // invokeAwareMethods
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanClassLoaderAware){
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
+
+
         // 1. 执行 BeanPostProcessor Before 处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
