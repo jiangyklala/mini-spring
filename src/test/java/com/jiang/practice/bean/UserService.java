@@ -1,5 +1,8 @@
 package com.jiang.practice.bean;
 
+import com.jiang.practice.beans.factory.DisposableBean;
+import com.jiang.practice.beans.factory.InitializingBean;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 @Setter
 @Getter
-public class UserService {
+public class UserService implements InitializingBean, DisposableBean {
 
     private String uid;
 
@@ -29,5 +32,15 @@ public class UserService {
 
     public void queryUserInfo() {
         log.debug("查询用户信息: uid={}, company:{}, location:{}", userDao.queryUserName(uid), company, location);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        log.debug("execute: UserService.destroy");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.debug("execute: UserService.afterPropertiesSet");
     }
 }

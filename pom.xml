@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.jiang</groupId>
-	<artifactId>practice</artifactId>
+	<artifactId>mini-spring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>mini-spring</name>
 	<description>try to implete a mini-spring which includes functions of AOP &amp; IOC</description>
