@@ -2,13 +2,12 @@ package com.jiang.practice.beans.factory.support;
 
 import java.lang.reflect.Constructor;
 
-import org.springframework.cglib.proxy.Enhancer;
-import org.springframework.cglib.proxy.NoOp;
-
 import com.jiang.practice.beans.BeansException;
 import com.jiang.practice.beans.factory.config.BeanDefinition;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.NoOp;
 
 /**
  * 使用 CGlib 实例化对象

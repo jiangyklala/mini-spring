@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jiang.practice.beans.BeansException;
+import com.jiang.practice.beans.factory.FactoryBean;
 import com.jiang.practice.beans.factory.config.BeanDefinition;
 import com.jiang.practice.beans.factory.config.BeanPostProcessor;
 import com.jiang.practice.beans.factory.config.ConfigurableBeanFactory;
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * Created on 2023-12-13
  */
 @Slf4j
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
     /**
      * BeanPostProcessors to apply in createBean
@@ -50,15 +51,24 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     }
 
     protected <T> T doGetBean(final String name, final Object[] args) {
-        Object bean = getSingleton(name);
-        if (bean != null) {
-            log.debug("get singleton bean named: {}", name);
-            return (T) bean;
+//        Object bean = getSingleton(name);
+//        if (bean != null) {
+//            log.debug("get singleton bean named: {}", name);
+//            return (T) bean;
+//        }
+//
+//        log.debug("first get bean named: {}, try to create..", name);
+//        BeanDefinition beanDefinition = getBeanDefinition(name);
+//        return (T) createBean(name, beanDefinition, args);
+        Object sharedInstance = getSingleton(name);
+        if (sharedInstance != null) {
+            // 如果是 FactoryBean，则需要调用 FactoryBean#getObject
+            return (T) getObjectForBeanInstance(sharedInstance, name);
         }
 
-        log.debug("first get bean named: {}, try to create..", name);
         BeanDefinition beanDefinition = getBeanDefinition(name);
-        return (T) createBean(name, beanDefinition, args);
+        Object bean = createBean(name, beanDefinition, args);
+        return (T) getObjectForBeanInstance(bean, name);
     }
 
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
@@ -82,6 +92,23 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     public ClassLoader getBeanClassLoader() {
         return this.beanClassLoader;
+    }
+
+    private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        if (!(beanInstance instanceof FactoryBean)) {
+            // 非 FactoryBean 直接返回
+            return beanInstance;
+        }
+
+        // 以下是获取 FactoryBean 所创造 Bean 的逻辑
+        Object object = getCachedObjectForFactoryBean(beanName);
+
+        if (object == null) {
+            FactoryBean<?> factoryBean = (FactoryBean<?>) beanInstance;
+            object = getObjectFromFactoryBean(factoryBean, beanName);
+        }
+
+        return object;
     }
 
 }

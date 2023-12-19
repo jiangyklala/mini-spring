@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="userService" class="com.jiang.practice.bean.IUserService" scope="prototype">
+        <property name="uid" value="10001"/>
+        <property name="company" value="NWAFU"/>
+        <property name="location" value="Beijing"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="userDao" class="com.jiang.practice.bean.ProxyBeanFactory"/>
+
+</beans>

@@ -6,7 +6,9 @@ import java.io.InputStream;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openjdk.jol.info.ClassLayout;
 
+import com.jiang.practice.bean.IUserService;
 import com.jiang.practice.bean.UserDao;
 import com.jiang.practice.bean.UserService;
 import com.jiang.practice.beans.PropertyValue;
@@ -20,6 +22,7 @@ import com.jiang.practice.core.io.Resource;
 
 import cn.hutool.core.io.IoUtil;
 import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * @author jiangyunkai <jiangyunkai@kuaishou.com>
@@ -105,6 +108,26 @@ public class ApiTest {
         userService.queryUserInfo();
         log.debug("applicationContextAware: {}", userService.getApplicationContext());
         log.debug("BeanFactoryAware: {}", userService.getBeanFactory());
+    }
+
+    @Test
+    public void test_prototype() {
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-3.xml");
+        applicationContext.registerShutdownHook();
+
+        // 2. 获取Bean对象调用方法
+        IUserService iUserService01 = applicationContext.getBean("userService", IUserService.class);
+        IUserService iUserService02 = applicationContext.getBean("userService", IUserService.class);
+
+        // 3. 配置 scope="prototype/singleton"
+        System.out.println(iUserService01);
+        System.out.println(iUserService02);
+
+        // 4. 打印十六进制哈希
+        System.out.println(iUserService01 + " 十六进制哈希：" + Integer.toHexString(iUserService01.hashCode()));
+        System.out.println(ClassLayout.parseInstance(iUserService01).toPrintable());
+
     }
 
 }
