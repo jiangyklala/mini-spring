@@ -16,9 +16,12 @@ import com.jiang.practice.beans.PropertyValues;
 import com.jiang.practice.beans.factory.config.BeanDefinition;
 import com.jiang.practice.beans.factory.config.BeanReference;
 import com.jiang.practice.beans.factory.support.DefaultListableBeanFactory;
+import com.jiang.practice.context.event.ContextClosedEvent;
+import com.jiang.practice.context.event.ContextRefreshedEvent;
 import com.jiang.practice.context.support.ClassPathXmlApplicationContext;
 import com.jiang.practice.core.io.DefaultResourceLoader;
 import com.jiang.practice.core.io.Resource;
+import com.jiang.practice.event.CustomEvent;
 
 import cn.hutool.core.io.IoUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -128,6 +131,16 @@ public class ApiTest {
         System.out.println(iUserService01 + " 十六进制哈希：" + Integer.toHexString(iUserService01.hashCode()));
         System.out.println(ClassLayout.parseInstance(iUserService01).toPrintable());
 
+    }
+
+    @Test
+    public void test_event() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-4.xml");
+        applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
+        applicationContext.publishEvent(new ContextClosedEvent(applicationContext));
+        applicationContext.publishEvent(new ContextRefreshedEvent(applicationContext));
+
+        applicationContext.registerShutdownHook();
     }
 
 }
