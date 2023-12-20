@@ -51,14 +51,19 @@ public abstract class AbstractApplicationEventMulticaster implements Application
     }
 
     /**
-     * 监听器是否对该事件感兴趣
+     * 判断该监听器是否对该事件感兴趣<br/>
+     * 具体的实现思路是: 用传进来的 listener, 拿到这个 listener 直接实现的 ApplicationListener<?> 中的泛型类型 (也就是这个 ?),
+     * 这个泛型类型也是个 xxxEvent, 然后通过 isAssignableFrom 来判断其是否是 平级 or 继承关系; 是, 就代表这个 listener 所对应的就是
+     * 这个 event
+     * @param applicationListener 监听器
+     * @param event 事件
      */
     protected boolean supportsEvent(ApplicationListener<ApplicationEvent> applicationListener, ApplicationEvent event) {
         Class<? extends ApplicationListener> listenerClass = applicationListener.getClass();
 
         // 按照 CglibSubclassingInstantiationStrategy、SimpleInstantiationStrategy 不同的实例化类型，需要判断后获取目标 class
         Class<?> targetClass = ClassUtils.isCglibProxyClass(listenerClass) ? listenerClass.getSuperclass() : listenerClass;
-        Type genericInterface = targetClass.getGenericInterfaces()[0];
+        Type genericInterface = targetClass.getGenericInterfaces()[0];  // 获取这个 Class 直接实现的 Interface Class
 
         Type actualTypeArgument = ((ParameterizedType) genericInterface).getActualTypeArguments()[0];
         String className = actualTypeArgument.getTypeName();

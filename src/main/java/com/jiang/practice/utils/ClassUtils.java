@@ -36,6 +36,9 @@ public class ClassUtils {
      * @param className the class name to check
      */
     public static boolean isCglibProxyClassName(String className) {
+        // 可以通过实例 class name 中是否含有 "$$" 来判断
+        // 一个被 CGlib 代理的例子: com.jiang.practice.event.CustomEventListener$$EnhancerByCGLIB$$6dd5fa3a
+        // 其 superClass is com.jiang.practice.event.CustomEventListener
         return (className != null && className.contains("$$"));
     }
 
