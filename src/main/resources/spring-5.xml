@@ -1,0 +1,18 @@
+<beans>
+
+    <bean id="userService" class="com.jiang.practice.bean.IUserService2"/>
+
+    <bean class="com.jiang.practice.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="beforeAdvice" class="com.jiang.practice.advice.IUserServiceBeforeAdvice"/>
+
+    <bean id="methodInterceptor" class="com.jiang.practice.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="beforeAdvice"/>
+    </bean>
+
+    <bean id="pointcutAdvisor" class="com.jiang.practice.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* com.jiang.practice.bean.UserServiceInterface.*(..))"/>
+        <property name="advice" ref="methodInterceptor"/>
+    </bean>
+
+</beans>

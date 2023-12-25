@@ -17,6 +17,7 @@ import com.jiang.practice.aop.framework.ReflectiveMethodInvocation;
 import com.jiang.practice.bean.IUserService2;
 import com.jiang.practice.bean.UserService;
 import com.jiang.practice.bean.UserServiceInterface;
+import com.jiang.practice.context.support.ClassPathXmlApplicationContext;
 import com.jiang.practice.interceptor.IUserServiceInterceptor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,14 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class AOPTest {
+
+    @Test
+    public void test_aop() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-5.xml");
+        UserServiceInterface userService = applicationContext.getBean("userService", UserServiceInterface.class);
+        log.debug("测试结果：{}", userService.queryUserInfo());
+    }
+
 
     /**
      * 校验 AspectJExpressionPointcut 是否可以拦截所指定的方法

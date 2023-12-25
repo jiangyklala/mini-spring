@@ -16,6 +16,7 @@ import com.jiang.practice.beans.factory.config.AutowireCapableBeanFactory;
 import com.jiang.practice.beans.factory.config.BeanDefinition;
 import com.jiang.practice.beans.factory.config.BeanPostProcessor;
 import com.jiang.practice.beans.factory.config.BeanReference;
+import com.jiang.practice.beans.factory.config.InstantiationAwareBeanPostProcessor;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -40,6 +41,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
         Object bean = null;
         try {
+            // 判断是否返回代理 Bean 对象
+            bean = resolveBeforeInstantiation(beanName, beanDefinition);
+            if (null != bean) {
+                return bean;
+            }
+
             // 带参实例化, 此时是没有注入属性的
             bean = createBeanInstance(beanName, beanDefinition, args);
             // 为 Bean 注入属性
@@ -58,6 +65,25 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             addSingleton(beanName, bean);
         }
         return bean;
+    }
+
+    protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        Object bean = applyBeanPostProcessorBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (null != bean) {
+            bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        }
+        return bean;
+    }
+
+
+    public Object applyBeanPostProcessorBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+        for (BeanPostProcessor processor : getBeanPostProcessors()) {
+            if (processor instanceof InstantiationAwareBeanPostProcessor) {
+                Object result = ((InstantiationAwareBeanPostProcessor) processor).postProcessBeforeInstantiation(beanClass, beanName);
+                if (null != result) return result;
+            }
+        }
+        return null;
     }
 
     protected Object createBeanInstance(String beanName, BeanDefinition beanDefinition, Object[] args) {
