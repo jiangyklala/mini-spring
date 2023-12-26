@@ -29,6 +29,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AOPTest {
 
+    /**
+     * 测试占位符 Token
+     */
+    @Test
+    public void test_property() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-6.xml");
+        UserServiceInterface userService = applicationContext.getBean("userService3", UserServiceInterface.class);
+        log.debug("测试结果：{}", userService);
+    }
+
+    /**
+     * 测试包扫描
+     */
+    @Test
+    public void test_scan() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
+        UserServiceInterface userService = applicationContext.getBean("userService3", UserServiceInterface.class);
+        log.debug("测试结果：{}", userService.queryUserInfo());
+    }
+
     @Test
     public void test_aop() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-5.xml");
