@@ -13,7 +13,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
      * The returned bean object may be a proxy to use instead of the target bean,
      * effectively suppressing default instantiation of the target bean.
      * <p/>
-     * 在 Bean 对象执行初始化方法之前，执行此方法
+     * 在 Bean 对象实例化之前，执行此方法
      */
     Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException;
 
