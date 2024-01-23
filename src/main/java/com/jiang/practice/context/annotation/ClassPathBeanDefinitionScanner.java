@@ -10,6 +10,7 @@ import com.jiang.practice.stereotype.Component;
 import cn.hutool.core.util.StrUtil;
 
 /**
+ * 某个包下的 Bean 扫描类
  * @author jiangyunkai <jiangyunkai@kuaishou.com>
  * Created on 2023-12-26
  */

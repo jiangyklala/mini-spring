@@ -4,6 +4,7 @@ import com.jiang.practice.beans.PropertyValues;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 用于定义 Bean 的实例化信息
@@ -12,6 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class BeanDefinition {
 
     String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;

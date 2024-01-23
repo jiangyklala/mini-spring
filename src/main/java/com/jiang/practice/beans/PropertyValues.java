@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 用于传递类的属性信息
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
  * Created on 2023-12-13
  */
 @NoArgsConstructor
+@ToString
 public class PropertyValues {
 
     private final List<PropertyValue> propertyValueList = new ArrayList<>();

@@ -9,11 +9,14 @@ import com.jiang.practice.beans.BeansException;
 import com.jiang.practice.beans.factory.ConfigurableListableBeanFactory;
 import com.jiang.practice.beans.factory.config.BeanDefinition;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 管理 BeanDefinition 信息
  * @author jiangyunkai <jiangyunkai@kuaishou.com>
  * Created on 2023-12-13
  */
+@Slf4j
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry, ConfigurableListableBeanFactory {
 
     private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
@@ -21,6 +24,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
         beanDefinitionMap.put(beanName, beanDefinition);
+
+        log.debug("now beanDefinitionMap:{}", beanDefinition);
     }
 
     @Override
