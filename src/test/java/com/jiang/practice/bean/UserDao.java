@@ -3,6 +3,8 @@ package com.jiang.practice.bean;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.jiang.practice.stereotype.Component;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -10,11 +12,12 @@ import lombok.extern.slf4j.Slf4j;
  * Created on 2023-12-13
  */
 @Slf4j
+@Component
 public class UserDao {
 
     private static Map<String, String> hashMap = new HashMap<>();
 
-    public void initDataMethod() {
+    static  {
         log.debug("execute: init-method");
         hashMap.put("10001", "111");
         hashMap.put("10002", "222");

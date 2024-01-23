@@ -49,6 +49,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
             // 带参实例化, 此时是没有注入属性的
             bean = createBeanInstance(beanName, beanDefinition, args);
+            // 在 Bean 注入属性前, 使用 BeanPostProcessor 修改属性值
+            applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             // 为 Bean 注入属性
             applyPropertyValues(beanName, beanDefinition, bean);
             // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
@@ -65,6 +67,22 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             addSingleton(beanName, bean);
         }
         return bean;
+    }
+
+    /**
+     * 使用 BeanPostProcessor 修改属性值
+     */
+    protected void applyBeanPostProcessorsBeforeApplyingPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor){
+                PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+                if (null != pvs) {
+                    for (PropertyValue propertyValue : pvs.getPropertyValues()) {
+                        beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+                    }
+                }
+            }
+        }
     }
 
     protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {

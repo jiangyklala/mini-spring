@@ -13,6 +13,7 @@ import com.jiang.practice.aop.TargetSource;
 import com.jiang.practice.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import com.jiang.practice.aop.framework.ProxyFactory;
 import com.jiang.practice.beans.BeansException;
+import com.jiang.practice.beans.PropertyValues;
 import com.jiang.practice.beans.factory.BeanFactory;
 import com.jiang.practice.beans.factory.BeanFactoryAware;
 import com.jiang.practice.beans.factory.config.InstantiationAwareBeanPostProcessor;
@@ -77,6 +78,11 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
+    }
+
+    @Override
+    public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+        return pvs;
     }
 
 }

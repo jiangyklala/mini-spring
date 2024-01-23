@@ -11,6 +11,7 @@ import org.openjdk.jol.info.ClassLayout;
 import com.jiang.practice.bean.IUserService;
 import com.jiang.practice.bean.UserDao;
 import com.jiang.practice.bean.UserService;
+import com.jiang.practice.bean.UserServiceInterface;
 import com.jiang.practice.beans.PropertyValue;
 import com.jiang.practice.beans.PropertyValues;
 import com.jiang.practice.beans.factory.config.BeanDefinition;
@@ -141,6 +142,13 @@ public class ApiTest {
         applicationContext.publishEvent(new ContextRefreshedEvent(applicationContext));
 
         applicationContext.registerShutdownHook();
+    }
+
+    @Test
+    public void test_scan() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-7.xml");
+        UserServiceInterface userService = applicationContext.getBean("userService4", UserServiceInterface.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
     }
 
 }

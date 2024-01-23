@@ -1,6 +1,7 @@
 package com.jiang.practice.beans.factory.config;
 
 import com.jiang.practice.beans.BeansException;
+import com.jiang.practice.beans.PropertyValues;
 
 /**
  * @author jiangyunkai <jiangyunkai@kuaishou.com>
@@ -16,5 +17,14 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
      * 在 Bean 对象实例化之前，执行此方法
      */
     Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException;
+
+    /**
+     * Post-process the given property values before the factory applies them
+     * to the given bean. Allows for checking whether all dependencies have been
+     * satisfied, for example based on a "Required" annotation on bean property setters.
+     * <br/>
+     * 在 Bean 对象实例化完成后，设置属性操作之前执行此方法
+     */
+    PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException;
 
 }

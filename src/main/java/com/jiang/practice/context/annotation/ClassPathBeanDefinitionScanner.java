@@ -2,6 +2,7 @@ package com.jiang.practice.context.annotation;
 
 import java.util.Set;
 
+import com.jiang.practice.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import com.jiang.practice.beans.factory.config.BeanDefinition;
 import com.jiang.practice.beans.factory.support.BeanDefinitionRegistry;
 import com.jiang.practice.stereotype.Component;
@@ -36,6 +37,9 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(determineBeanName(beanDefinition), beanDefinition);
             }
         }
+
+        // 注册处理注解的 BeanPostProcessor（@Autowired、@Value）
+        registry.registerBeanDefinition("com.jiang.practice.beans.factory.annotation.internalAutowiredAnnotationProcessor", new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
     }
 
     private String resolveBeanScope(BeanDefinition beanDefinition) {
