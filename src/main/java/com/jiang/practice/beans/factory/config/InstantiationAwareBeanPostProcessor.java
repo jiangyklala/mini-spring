@@ -13,10 +13,19 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
      * Apply this BeanPostProcessor <i>before the target bean gets instantiated</i>.
      * The returned bean object may be a proxy to use instead of the target bean,
      * effectively suppressing default instantiation of the target bean.
-     * <p/>
-     * 在 Bean 对象实例化之前，执行此方法
+     * <p>
+     * 在 Bean 对象执行初始化方法之前，执行此实例化方法
      */
     Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException;
+
+    /**
+     * Apply this BeanPostProcessor <i>before the target bean gets instantiated</i>.
+     * The returned bean object may be a proxy to use instead of the target bean,
+     * effectively suppressing default instantiation of the target bean.
+     * <p/>
+     * 在 Bean 对象实例化之前，执行此实例化方法
+     */
+    boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException;
 
     /**
      * Post-process the given property values before the factory applies them
